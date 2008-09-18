@@ -1,0 +1,20 @@
+syntax: glob
+*.pyc
+*.pyo
+*.orig
+localSettings.py
+media
+.DS_Store
+*.db
+*.so
+*.os
+plugins/visual_similarity/metrics/stroke.c
+.sconsign.dblite
+config.log
+build
+dist
+*.deb
+*.rpm
+kanji_test.egg-info
+*.swp
+*.diff
