@@ -1,0 +1,66 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+
+<h1>Create an account</h1>
+  
+<p>Fill out the form to the below (all fields are required), and your
+account will be created; you'll be sent an email with instructions on how
+to finish your registration. We'll only use your email to send you signup
+instructions.</p>
+
+<p>This is a research project, so we do collect your testing data in order to
+make better tests for learners. We will never provide your email address or any
+other identifying information to a third party. By using this system you will
+help to advance research into techniques for Japanese learning.</p>
+
+  {% if form.errors %}
+  <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
+  {% endif %}
+
+  <form method="post" action="" class="wide">
+    <fieldset class="module aligned">
+      <div class="form-row">
+        <div>
+          <label for="id_username">Username:</label>
+          {{ form.username }}
+        </div>
+        {% if form.username.errors %}
+          <p class="errors">{{ form.username.errors.as_text }}</p>
+        {% endif %}
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="id_email">Email address:</label>
+          {{ form.email }}
+        </div>
+        {% if form.email.errors %}
+          <p class="errors">{{ form.email.errors.as_text }}</p>
+        {% endif %}
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="id_password1">Password:</label>
+          {{ form.password1 }}
+        </div>
+        {% if form.password1.errors %}
+          <p class="errors">{{ form.password1.errors.as_text }}</p>
+        {% endif %}
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="id_password2">Password (type again):</label>
+          {{ form.password2 }}
+        </div>
+        {% if form.password2.errors %}
+          <p class="errors">{{ form.password2.errors.as_text }}</p>
+        {% endif %}
+      </div>
+    </fieldset>
+    <p class="submit"><input type="submit" value="Register &rarr;"></p>
+  </form>
+
+{% endblock %}
+

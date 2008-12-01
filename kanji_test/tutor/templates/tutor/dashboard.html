@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Dashboard
+{% endblock %}
+
+{% block content %}
+  <h1>Dashboard</h1>
+  
+  <p>Here is where you can monitor your progress and take new tests, or 
+  <a href="{% url tutor_about %}">read about</a> the project.</p>
+
+  <h2>Progress on {{user.get_profile.syllabus.tag}}</h2>
+  {% if not stats.has_questions %}
+    <p>No statistics yet. Take a test to get some results.</p>
+  {% else %}
+    <p>You have taken {{stats.n_tests}} test{{stats.n_tests|pluralize}} so far.</p>
+    <table>
+      <thead>
+        <th>&nbsp;</th><th>Long run</th><th>Most recent test</th>
+      </thead>
+      <tbody>
+      <tr>
+        <th># of questions</th>
+        <td>{{stats.long_run.n_questions}}</td>
+        <td>{{stats.most_recent.n_questions}}</td>
+      </tr>
+      <tr>
+        <th>Accuracy</th>
+        <td>{{stats.long_run.pc_correct|floatformat:1}}%</td>
+        <td>{{stats.most_recent.pc_correct|floatformat:1}}%</td>
+      </tr>
+      </tbody>
+    </table>
+  {% endif %}
+
+  <h2>Actions</h2>
+  <form method="POST" action="{% url tutor_testuser %}">
+  <input type="submit" value="Take a test">
+  (with 
+  <select name="n_questions">
+    <option value="10" selected="selected">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="50">50</option>
+  </select> questions)
+  </form>
+
+  {% if user.is_staff %}
+  <h2>Admin panel</h2>
+  <form action="/admin/" method="GET">
+  <input type="submit" value="Admin interface">
+  </form>
+  {% endif %}
+{% endblock %}

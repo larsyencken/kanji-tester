@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="description"
+    content="
+    {% block meta_description %}
+    Free online tool for studying JLPT 3 &amp; 4. Automatically generates
+    tests you can take to determine your proficiency.
+    {% endblock %}
+  " />
+	<title>{{project_name}} | {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{media_url}}css/tutor.css" type="text/css"
+    charset="utf-8">
+	{% block extra_head %}{% endblock %}
+</head>
+
+<body {% block body_attrs %}{% endblock %}>
+  <div id="container">
+    <div id="header">
+      <div id="branding">
+        <a href="/"><h1>{{project_name}}</h1></a>
+      </div>
+      <div id="user-tools">
+        {% block user_tools %}
+          {% if user.is_anonymous %}
+            <a href="{% url registration_register %}">Register</a> or
+            <a href="{% url auth_login %}">Log-in</a>
+          {% else %}
+            Hello {{user.username}}.
+            <a href="{% url auth_logout %}">Log-out</a>
+          {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+    <div id="content" {% block content_attrs %}class="flex"{% endblock %}>
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+{% if analytics_code %}
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("{{analytics_code}}");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Revision
+{% endblock %}
+
+{% block content %}
+  <h1>Revision</h1>
+  {% if not partial_kanji  and not partial_lexemes %}
+  <p>
+    Well done! You got everything correct in your last test, so there's nothing
+    to study. Consider taking a longer test to find items you might not know.
+  </p>
+  {% else %}
+  <p>In your previous test, you made mistakes on the following kanji and
+     words. Try to write down an example sentence using each item.</p>
+  {% endif %}
+  {% if partial_kanji %}
+    <h2>Kanji to study</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Kanji</th><th>Readings</th><th>Glosses</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for kanji in partial_kanji %}
+        <tr>
+          <td>{{kanji.kanji}}</td>
+          <td>
+            {% for kanji_reading in kanji.reading_set.all %}
+              {{kanji_reading.reading}}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </td>
+          <td>{{kanji.kanji.gloss}}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  
+  {% if partial_lexemes %}
+    <h2>Words to study</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Word</th><th>Readings</th><th>Glosses</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for partial_lexeme in partial_lexemes %}
+        <tr>
+          <td>
+            {% if partial_lexeme.surface_set.all %}
+              {% for lexeme_surface in partial_lexeme.surface_set.all %}
+                {{lexeme_surface.surface}}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            {% else %}
+              {% for lexeme_reading in partial_lexeme.reading_set.all %}
+                {{lexeme_reading.reading}}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            {% endif %}
+          </td>
+          <td>
+            {% for lexeme_reading in partial_lexeme.reading_set.all %}
+              {{lexeme_reading.reading}}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </td>
+          <td>
+            {% for lexeme_sense in partial_lexeme.lexeme.sense_set.all %}
+              {{lexeme_sense.gloss}}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  <p>
+    <form action="{% url tutor_dashboard %}" method="GET">
+      <input type="submit" value="Back to dashboard">
+    </form>
+  </p>
+{% endblock %}
